@@ -1,0 +1,6 @@
+base64 encoder/decoder
+
+
+1) Get this : git clone git://github.com/progman/base64codec
+2) Use this : base64encoder source > target
+3) Enjoy!
