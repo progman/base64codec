@@ -70,7 +70,7 @@ int do_it(const char *filename)
 	}
 
 
-	for(size_t i=0; i < xxx.size(); i++)
+	for (size_t i=0; i < xxx.size(); i++)
 	{
 		printf("%c", xxx[i]);
 	}
@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
 
 	if (argc != 2)
 	{
-		printf ("example: %s file\n", argv[0]);
+		printf("example: %s file\n", argv[0]);
 		return 1;
 	}
 

@@ -148,13 +148,13 @@ std::string base64_decode(const void *p, size_t size)
 	const char *p_base64 = (const char*)p;
 	size_t base64_size = size;
 
-	for(size_t i = 0; i < base64_size; i++, p_base64++)
+	for (size_t i = 0; i < base64_size; i++, p_base64++)
 	{
-//		printf ("%u\n", i);
+//		printf("%u\n", i);
 /*
 		bool found = false;
 		size_t j;
-		for(j=0; j < (sizeof(base64_table)/sizeof(base64_table[0])); j++)
+		for (j=0; j < (sizeof(base64_table)/sizeof(base64_table[0])); j++)
 		{
 			if (base64[i] == base64_table[j])
 			{
@@ -168,7 +168,7 @@ std::string base64_decode(const void *p, size_t size)
 
 		if ((j == size_t(-1)) && (*p_base64 != '=')) continue;
 
-//		printf ("[%c] %u\n", base64[i], j);
+//		printf("[%c] %u\n", base64[i], j);
 
 		if (*p_base64 != '=')
 		{
@@ -184,7 +184,7 @@ std::string base64_decode(const void *p, size_t size)
 		if (a_index == 4)
 		{
 			a_index = 0;
-//			printf ("0x%X\n", a & 0xFFFFFF);
+//			printf("0x%X\n", a & 0xFFFFFF);
 //			a = 0;
 
 			switch (tail_count)
