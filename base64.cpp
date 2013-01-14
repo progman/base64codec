@@ -43,7 +43,7 @@ static signed char base64_decode_table[256]=
 std::string base64_encode(const void *p, size_t size, bool split)
 {
 	std::string temp;
-	temp.reserve(4096);
+	temp.reserve(size / (4.0/3.0));
 
 
 	unsigned char *buf = (unsigned char*)p;
