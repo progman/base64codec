@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.0.5
+// 0.0.6
 // Alexey Potehin http://www.gnuplanet.ru/doc/cv
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 #include <stdint.h>
@@ -17,27 +17,27 @@ static char base64_encode_table[64]=
 	'4', '5', '6', '7', '8', '9', '+', '/'
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-static signed char base64_decode_table[256]=
+static unsigned char base64_decode_table[256]=
 {
-	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,
-	52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1,
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,   62, 0xff, 0xff, 0xff,   63,
+	  52,   53,   54,   55,   56,   57,   58,   59,   60,   61, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 
-	-1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,
-	15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,
-	-1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-	41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1,
+	0xff,    0,    1,    2,    3,    4,    5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
+	  15,   16,   17,   18,   19,   20,   21,   22,   23,   24,   25, 0xff, 0xff, 0xff, 0xff, 0xff,
+	0xff,   26,   27,   28,   29,   30,   31,   32,   33,   34,   35,   36,   37,   38,   39,   40,
+	  41,   42,   43,   44,   45,   46,   47,   48,   49,   50,   51, 0xff, 0xff, 0xff, 0xff, 0xff,
 
-	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 
-	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // encode data to base64
@@ -136,28 +136,24 @@ std::string base64_encode(const std::string& base64, bool split)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // decode base64 to string
-std::string base64_decode(const void *p, size_t size)
+size_t base64_decode(const void *p, size_t size, std::string& out)
 {
-	std::string temp;
-	temp.reserve(size * (4.0/3.0));
+	out.clear();
+	out.reserve(size * (4.0/3.0));
 
 
 	uint32_t a = 0;
 	size_t a_index = 0;
 	size_t tail_count = 0;
-
 	const unsigned char *p_base64 = (const unsigned char*)p;
-	size_t base64_size = size;
 
-	for (size_t i = 0; i < base64_size; i++, p_base64++)
+
+	for (size_t i = 0; i < size; i++, p_base64++)
 	{
-//		printf("%u\n", i);
 		uint32_t j = base64_decode_table[*p_base64];
-
 
 		if ((j == uint32_t(-1)) && (*p_base64 != '=')) continue;
 
-//		printf("[%c] %u\n", base64[i], j);
 
 		if (*p_base64 != '=')
 		{
@@ -169,65 +165,35 @@ std::string base64_decode(const void *p, size_t size)
 		}
 
 		a_index++;
-
 		if (a_index == 4)
 		{
 			a_index = 0;
-//			printf("0x%X\n", a & 0xFFFFFF);
-//			a = 0;
-
 
 			if ((tail_count == 0) || (tail_count == 1) || (tail_count == 2))
 			{
-				temp += char((a >> 16) & 0xFF);
+				out += char((a >> 16) & 0xFF);
 			}
 
 			if ((tail_count == 0) || (tail_count == 1))
 			{
-				temp += char((a >>  8) & 0xFF);
+				out += char((a >>  8) & 0xFF);
 			}
 
 			if (tail_count == 0)
 			{
-				temp += char((a >>  0) & 0xFF);
+				out += char((a >>  0) & 0xFF);
 			}
-/*
-			switch (tail_count)
-			{
-				case 0:
-				{
-					temp += char((a >> 16) & 0xFF);
-					temp += char((a >>  8) & 0xFF);
-					temp += char((a >>  0) & 0xFF);
-					break;
-				}
-				case 1:
-				{
-					temp += char((a >> 16) & 0xFF);
-					temp += char((a >>  8) & 0xFF);
-//					temp = temp + char((a >> 00) & 0xFF);
-					break;
-				}
-				case 2:
-				{
-					temp += char((a >> 16) & 0xFF);
-//					temp = temp + char((a >> 08) & 0xFF);
-//					temp = temp + char((a >> 00) & 0xFF);
-					break;
-				}
-			}
-*/
 		}
 		a = a << 6;
 	}
 
 
-	return temp;
+	return out.size();
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // decode base64 to string
-std::string base64_decode(const std::string& base64)
+size_t base64_decode(const std::string& base64, std::string& out)
 {
-	return base64_decode(base64.c_str(), base64.size());
+	return base64_decode(base64.c_str(), base64.size(), out);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//

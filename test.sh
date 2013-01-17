@@ -19,9 +19,9 @@ function encdec()
 	if [ "${FLAG_DEBUG}" != "" ];
 	then
 		echo "-------------------------------";
-		echo -n "data1: "; cat "${TMP1}"; echo;
-		echo -n "data2: "; cat "${TMP2}"; echo;
-		echo -n "data3: "; cat "${TMP3}"; echo;
+		echo -n "data1(${TMP1}): "; cat "${TMP1}"; echo;
+		echo -n "data2(${TMP2}): "; cat "${TMP2}"; echo;
+		echo -n "data3(${TMP3}): "; cat "${TMP3}"; echo;
 	fi
 
 
@@ -29,9 +29,9 @@ function encdec()
 	then
 		echo "ERROR: result different...";
 
-		echo -n "data1: "; cat "${TMP1}"; echo;
-		echo -n "data2: "; cat "${TMP2}"; echo;
-		echo -n "data3: "; cat "${TMP3}"; echo;
+		echo -n "data1(${TMP1}): "; cat "${TMP1}"; echo;
+		echo -n "data2(${TMP2}): "; cat "${TMP2}"; echo;
+		echo -n "data3(${TMP3}): "; cat "${TMP3}"; echo;
 		exit 1;
 	fi
 

@@ -47,7 +47,14 @@ int do_it(const char *filename)
 
 
 	std::string base64 = std::string((char*)p_mmap, size);
-	std::string xxx = base64_decode(base64);
+	std::string out;
+	if (base64_decode(base64, out) == size_t(-1))
+	{
+		munmap(p_mmap, size);
+		close(fd);
+		printf("ERROR[base64_decode()]: unknown error\n");
+		return -1;
+	}
 
 
 	rc = munmap(p_mmap, size);
@@ -67,9 +74,9 @@ int do_it(const char *filename)
 	}
 
 
-	for (size_t i=0; i < xxx.size(); i++)
+	for (size_t i=0; i < out.size(); i++)
 	{
-		printf("%c", xxx[i]);
+		printf("%c", out[i]);
 	}
 
 

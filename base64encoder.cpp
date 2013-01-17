@@ -46,7 +46,7 @@ int do_it(const char *filename)
 	}
 
 
-	std::string xxx = base64_encode(p_mmap, size);
+	std::string out = base64_encode(p_mmap, size);
 
 
 	rc = munmap(p_mmap, size);
@@ -66,9 +66,9 @@ int do_it(const char *filename)
 	}
 
 
-	for (size_t i=0; i < xxx.size(); i++)
+	for (size_t i=0; i < out.size(); i++)
 	{
-		printf("%c", xxx[i]);
+		printf("%c", out[i]);
 	}
 
 
