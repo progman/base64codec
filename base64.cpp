@@ -2,6 +2,7 @@
 // 0.0.5
 // Alexey Potehin http://www.gnuplanet.ru/doc/cv
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+#include <stdint.h>
 #include "base64.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 static char base64_encode_table[64]=
@@ -141,7 +142,7 @@ std::string base64_decode(const void *p, size_t size)
 	temp.reserve(size * (4.0/3.0));
 
 
-	unsigned long int a = 0;
+	uint32_t a = 0;
 	size_t a_index = 0;
 	size_t tail_count = 0;
 
@@ -151,10 +152,10 @@ std::string base64_decode(const void *p, size_t size)
 	for (size_t i = 0; i < base64_size; i++, p_base64++)
 	{
 //		printf("%u\n", i);
-		size_t j = base64_decode_table[*p_base64];
+		uint32_t j = base64_decode_table[*p_base64];
 
 
-		if ((j == size_t(-1)) && (*p_base64 != '=')) continue;
+		if ((j == uint32_t(-1)) && (*p_base64 != '=')) continue;
 
 //		printf("[%c] %u\n", base64[i], j);
 
