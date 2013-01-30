@@ -47,13 +47,13 @@ std::string base64_encode(const void *p, size_t size, bool split)
 	temp.reserve(size / (4.0/3.0));
 
 
-	unsigned char *buf = (unsigned char*)p;
+	uint8_t *buf = (uint8_t*)p;
 	size_t index = 0;
 
 
 	for (;;)
 	{
-		unsigned long int a = 0;
+		uint32_t a = 0;
 
 		if (index < size)
 		{
