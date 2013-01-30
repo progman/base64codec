@@ -32,7 +32,11 @@ int do_it(char *p, size_t size)
 	}
 	else
 	{
-		out = base64_encode(p, size);
+		if (base64_encode(p, size, out) == size_t(-1))
+		{
+			printf("ERROR[base64_encode()]: unknown error\n");
+			return -1;
+		}
 	}
 
 

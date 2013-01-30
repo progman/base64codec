@@ -41,10 +41,10 @@ static unsigned char base64_decode_table[256]=
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // encode data to base64
-std::string base64_encode(const void *p, size_t size, bool split)
+size_t base64_encode(const void *p, size_t size, std::string& out, bool split, size_t split_size)
 {
-	std::string temp;
-	temp.reserve(size / (4.0/3.0));
+	out.clear();
+	out.reserve(size / (4.0/3.0));
 
 
 	uint8_t *buf = (uint8_t*)p;
@@ -72,67 +72,49 @@ std::string base64_encode(const void *p, size_t size, bool split)
 			a = a | buf[index++];
 		}
 
-		int base64_index1 = (a >> (6*3)) & 63;
-		int base64_index2 = (a >> (6*2)) & 63;
-		int base64_index3 = (a >> (6*1)) & 63;
-		int base64_index4 = (a >> (6*0)) & 63;
+		out += base64_encode_table[(a >> (6*3)) & 63];
+		out += base64_encode_table[(a >> (6*2)) & 63];
+		out += base64_encode_table[(a >> (6*1)) & 63];
+		out += base64_encode_table[(a >> (6*0)) & 63];
 
-		if (index < size)
+		if (index >= size)
 		{
-			temp += base64_encode_table[base64_index1];
-			temp += base64_encode_table[base64_index2];
-			temp += base64_encode_table[base64_index3];
-			temp += base64_encode_table[base64_index4];
-
-			if (((index/19)*19) == index)
-			{
-				if (split != false)
-				{
-					temp += "\n";
-				}
-			}
+			break;
 		}
-		else
+
+		if ((index % split_size) == 0)
 		{
-			if ((((size/3)*3)+0) == size)
+			if (split != false)
 			{
-				temp += base64_encode_table[base64_index1];
-				temp += base64_encode_table[base64_index2];
-				temp += base64_encode_table[base64_index3];
-				temp += base64_encode_table[base64_index4];
-				break;
-			}
-			if ((((size/3)*3)+1) == size)
-			{
-				temp += base64_encode_table[base64_index1];
-				temp += base64_encode_table[base64_index2];
-				temp += "=";
-				temp += "=";
-				break;
-			}
-			if ((((size/3)*3)+2) == size)
-			{
-				temp += base64_encode_table[base64_index1];
-				temp += base64_encode_table[base64_index2];
-				temp += base64_encode_table[base64_index3];
-				temp += "=";
-				break;
+				out += "\n";
 			}
 		}
 	}
+
+
+	if ((size % 3) == 1)
+	{
+		out[out.size() - 2] = '=';
+		out[out.size() - 1] = '=';
+	}
+	if ((size % 3) == 2)
+	{
+		out[out.size() - 1] = '=';
+	}
+
 
 	if (split != false)
 	{
-		temp += "\n";
+		out += "\n";
 	}
 
-	return temp;
+	return out.size();
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // encode string to base64
-std::string base64_encode(const std::string& base64, bool split)
+size_t base64_encode(const std::string& base64, std::string& out, bool split, size_t split_size)
 {
-	return base64_encode(base64.c_str(), base64.size(), split);
+	return base64_encode(base64.c_str(), base64.size(), out, split, split_size);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // decode base64 to string
