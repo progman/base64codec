@@ -8,8 +8,8 @@ function encdec()
 
 
 	echo -n "${MSG}" > "${TMP1}";
-	./bin/base64encoder "${TMP1}" > "${TMP2}";
-	./bin/base64decoder "${TMP2}" > "${TMP3}";
+	./bin/base64codec -e "${TMP1}" > "${TMP2}";
+	./bin/base64codec -d "${TMP2}" > "${TMP3}";
 
 
 	HASH1="$(md5sum ${TMP1} | awk '{print $1}')";
@@ -41,7 +41,7 @@ function encdec()
 	rm "${TMP3}";
 }
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-if [ ! -e ./bin/base64decoder ] || [ ! -e ./bin/base64encoder ];
+if [ ! -e ./bin/base64codec ];
 then
 	echo "ERROR: make it";
 	exit 1;
