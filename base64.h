@@ -9,8 +9,8 @@
 #include <string>
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // functions for base64
-size_t base64_encode(const void *p, size_t size, std::string& out, bool split=true, size_t split_size=19);
-size_t base64_encode(const std::string& base64, std::string& out, bool split=true, size_t split_size=19);
+size_t base64_encode(const void *p, size_t size, std::string& out, bool split=false, size_t split_size=19);
+size_t base64_encode(const std::string& base64, std::string& out, bool split=false, size_t split_size=19);
 size_t base64_decode(const void *p, size_t size, std::string& out);
 size_t base64_decode(const std::string& base64, std::string& out);
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
