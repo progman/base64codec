@@ -194,7 +194,7 @@ void help()
 	printf("  -h, -help, --help                this message\n");
 	printf("  -d                               decode from base64\n");
 	printf("  -e                               encode to base64\n");
-	printf("With no FILE, or when FILE is -, read standard input.\n");
+	printf("With no FILE, or when FILE is --, read standard input.\n");
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // general function
