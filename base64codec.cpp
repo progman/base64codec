@@ -71,7 +71,7 @@ int do_stdinput()
 
 
 	void *p_original = NULL;
-	char *p = (char*)p_original;
+	char *p = (char *)p_original;
 
 
 	for (;;)
@@ -85,7 +85,7 @@ int do_stdinput()
 				printf("ERROR[realloc()]: %s\n", strerror(errno));
 				return -1;
 			}
-			p = (char*)p_original + offset;
+			p = (char *)p_original + offset;
 			continue;
 		}
 
@@ -97,7 +97,7 @@ int do_stdinput()
 
 
 // convert data
-	rc = do_it((char*)p_original, offset);
+	rc = do_it((char *)p_original, offset);
 	if (rc == -1)
 	{
 		free(p_original);
@@ -151,7 +151,7 @@ int do_file(const char *filename)
 
 
 // convert data
-	rc = do_it((char*)p_mmap, size);
+	rc = do_it((char *)p_mmap, size);
 	if (rc == -1)
 	{
 		munmap(p_mmap, size);
@@ -198,7 +198,7 @@ void help()
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // general function
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	int rc;
 	bool flag_file = false;

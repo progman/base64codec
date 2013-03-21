@@ -41,13 +41,13 @@ static unsigned char base64_decode_table[256]=
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // encode data to base64
-size_t base64_encode(const void *p, size_t size, std::string& out, bool split, size_t split_size)
+size_t base64_encode(const void *p, size_t size, std::string &out, bool split, size_t split_size)
 {
 	out.clear();
 	out.reserve(size / (4.0/3.0));
 
 
-	uint8_t *buf = (uint8_t*)p;
+	uint8_t *buf = (uint8_t *)p;
 	size_t index = 0;
 
 
@@ -112,13 +112,13 @@ size_t base64_encode(const void *p, size_t size, std::string& out, bool split, s
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // encode string to base64
-size_t base64_encode(const std::string& base64, std::string& out, bool split, size_t split_size)
+size_t base64_encode(const std::string &base64, std::string &out, bool split, size_t split_size)
 {
 	return base64_encode(base64.c_str(), base64.size(), out, split, split_size);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // decode base64 to string
-size_t base64_decode(const void *p, size_t size, std::string& out)
+size_t base64_decode(const void *p, size_t size, std::string &out)
 {
 	out.clear();
 	out.reserve(size * (4.0/3.0));
@@ -127,7 +127,7 @@ size_t base64_decode(const void *p, size_t size, std::string& out)
 	uint32_t a = 0;
 	size_t a_index = 0;
 	size_t tail_count = 0;
-	const unsigned char *p_base64 = (const unsigned char*)p;
+	const unsigned char *p_base64 = (const unsigned char *)p;
 
 
 	for (size_t i = 0; i < size; i++, p_base64++)
@@ -174,7 +174,7 @@ size_t base64_decode(const void *p, size_t size, std::string& out)
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // decode base64 to string
-size_t base64_decode(const std::string& base64, std::string& out)
+size_t base64_decode(const std::string &base64, std::string &out)
 {
 	return base64_decode(base64.c_str(), base64.size(), out);
 }
