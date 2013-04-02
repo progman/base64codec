@@ -71,6 +71,7 @@ int do_stdinput()
 
 
 	void *p_original = NULL;
+	void *p_original_old;
 	char *p = (char *)p_original;
 
 
@@ -79,9 +80,11 @@ int do_stdinput()
 		if (offset >= size)
 		{
 			size += delta;
+			p_original_old = p_original;
 			p_original = realloc(p_original, size);
 			if (p_original == NULL)
 			{
+				free(p_original_old);
 				printf("ERROR[realloc()]: %s\n", strerror(errno));
 				return -1;
 			}
