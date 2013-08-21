@@ -3,19 +3,33 @@
 APP='./bin/base64codec';
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 # run app
-function app_run()
+function run_app()
 {
+	STDIN=$(cat);
+
+
 	if [ "${FLAG_VALGRIND}" != "1" ];
 	then
-		echo -n $(${APP} ${@});
+		if [ "${STDIN}" != "" ];
+		then
+			STDOUT=$(echo "${STDIN}" | ${APP} "${@}");
+		else
+			STDOUT=$(${APP} "${@}");
+		fi
 	else
 		VAL="valgrind --tool=memcheck --leak-check=yes --leak-check=full --show-reachable=yes --log-file=valgrind.log";
 
-		echo -n $(${VAL} ${APP} ${@});
+		STDOUT=$(echo "${STDIN}" | ${VAL} ${APP} "${@}");
 
 		echo '--------------------------' >> valgrind.all.log;
 		cat valgrind.log >> valgrind.all.log;
 		rm -rf valgrind.log;
+	fi
+
+
+	if [ "${STDOUT}" != "" ];
+	then
+		echo -n "${STDOUT}";
 	fi
 }
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
@@ -28,8 +42,8 @@ function test1()
 
 
 	echo -n "${MSG}" > "${TMP1}";
-	app_run -e "${TMP1}" > "${TMP2}";
-	app_run -d "${TMP2}" > "${TMP3}";
+	run_app -e "${TMP1}" > "${TMP2}" < /dev/null;
+	run_app -d "${TMP2}" > "${TMP3}" < /dev/null;
 
 
 	HASH1="$(md5sum ${TMP1} | awk '{print $1}')";
