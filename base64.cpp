@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.0.6
+// 0.0.7
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 #include <stdint.h>
@@ -43,8 +43,7 @@ static unsigned char base64_decode_table[256]=
 // encode data to base64
 size_t base64_encode(const void *p, size_t size, std::string &out, bool split, size_t split_size)
 {
-	out.clear();
-	out.reserve(size / (4.0/3.0));
+	out.reserve(out.size() + (size / (4.0/3.0)));
 
 
 	uint8_t *buf = (uint8_t *)p;
@@ -120,8 +119,7 @@ size_t base64_encode(const std::string &base64, std::string &out, bool split, si
 // decode base64 to string
 size_t base64_decode(const void *p, size_t size, std::string &out)
 {
-	out.clear();
-	out.reserve(size * (4.0/3.0));
+	out.reserve(out.size() + (size / (4.0/3.0)));
 
 
 	uint32_t a = 0;
