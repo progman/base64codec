@@ -2,5 +2,6 @@ base64 encoder/decoder
 
 
 1) Get this : git clone https://github.com/progman/base64codec.git
-2) Use this : base64codec -e source > target
-3) Enjoy!
+2) Make this: git submodule update --init && make x64 && ./test.sh
+3) Use this : base64codec -e source > target
+4) Enjoy!
