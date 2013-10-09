@@ -82,32 +82,40 @@ function check_prog()
 	return 0;
 }
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-if [ ! -e "${APP}" ];
-then
-	echo "ERROR: make it";
-	exit 1;
-fi
+# general function
+function main()
+{
+	if [ ! -e "${APP}" ];
+	then
+		echo "ERROR: make it";
+		return 1;
+	fi
 
 
-check_prog "awk cat echo md5sum mktemp rm";
-if [ "${?}" != "0" ];
-then
-	exit 1;
-fi
+	check_prog "awk cat echo md5sum mktemp rm";
+	if [ "${?}" != "0" ];
+	then
+		return 1;
+	fi
 
 
-MSG='hello world!';
-test1;
-MSG='hello world!!';
-test1;
-MSG='hello world!!!';
-test1;
-MSG='hello world!!!!';
-test1;
-MSG='hello world!!!!!';
-test1;
+	MSG='hello world!';
+	test1;
+	MSG='hello world!!';
+	test1;
+	MSG='hello world!!!';
+	test1;
+	MSG='hello world!!!!';
+	test1;
+	MSG='hello world!!!!!';
+	test1;
 
 
-echo "ok, test passed";
-exit 0;
+	echo "ok, test passed";
+	return 0;
+}
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+main "${@}";
+
+exit "${?}";
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
