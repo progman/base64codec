@@ -188,7 +188,7 @@ int do_file(const char *filename)
 // view help
 void help()
 {
-	printf("%s\t(%s)\n", PROG_FULL_NAME, PROG_URL);
+	printf("%s    %s\n", PROG_FULL_NAME, PROG_URL);
 	printf("example: %s [-d|-e] FILE [--]\n", PROG_NAME);
 	printf("\n");
 
