@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-# 0.0.7
+# 0.0.8
 # Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 PROG_NAME       := base64codec
@@ -19,25 +19,26 @@ CC              ?= gcc
 CXX             ?= g++
 LN              ?= g++
 STRIP           ?= strip --strip-unneeded --remove-section=.comment
+HASH            ?= md5sum
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-CFLAGS_x32DBG   := $(CFLAGS)   -m32 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O0 -I./ -g3 -std=c99   -fmax-errors=3 -ggdb -pg -fstack-protector-all
-CFLAGS_x32REL   := $(CFLAGS)   -m32 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c99   -fmax-errors=3 -funroll-all-loops
-CFLAGS_x32TST   := $(CFLAGS)   -m32 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c99   --analyze -fsanitize=address -fsanitize=bounds
-CFLAGS_x64DBG   := $(CFLAGS)   -m64 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O0 -I./ -g3 -std=c99   -fmax-errors=3 -ggdb -pg -fstack-protector-all
-CFLAGS_x64REL   := $(CFLAGS)   -m64 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c99   -fmax-errors=3 -funroll-all-loops
-CFLAGS_x64TST   := $(CFLAGS)   -m64 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c99   --analyze -fsanitize=address -fsanitize=bounds
+CFLAGS_x32DBG   := $(CFLAGS)   -m32 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O0 -I./ -g3 -std=c99   -fdata-sections -ffunction-sections -fmax-errors=3 -ggdb -pg -fstack-protector-all
+CFLAGS_x32REL   := $(CFLAGS)   -m32 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c99   -fdata-sections -ffunction-sections -fmax-errors=3 -funroll-all-loops
+CFLAGS_x32TST   := $(CFLAGS)   -m32 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c99   -fdata-sections -ffunction-sections --analyze -fsanitize=address -fsanitize=bounds
+CFLAGS_x64DBG   := $(CFLAGS)   -m64 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O0 -I./ -g3 -std=c99   -fdata-sections -ffunction-sections -fmax-errors=3 -ggdb -pg -fstack-protector-all
+CFLAGS_x64REL   := $(CFLAGS)   -m64 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c99   -fdata-sections -ffunction-sections -fmax-errors=3 -funroll-all-loops
+CFLAGS_x64TST   := $(CFLAGS)   -m64 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c99   -fdata-sections -ffunction-sections --analyze -fsanitize=address -fsanitize=bounds
 
-CPPFLAGS_x32DBG := $(CPPFLAGS) -m32 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O0 -I./ -g3 -std=c++11 -fmax-errors=3 -ggdb -pg -fstack-protector-all
-CPPFLAGS_x32REL := $(CPPFLAGS) -m32 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c++11 -fmax-errors=3 -funroll-all-loops
-CPPFLAGS_x32TST := $(CPPFLAGS) -m32 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c++11 --analyze -fsanitize=address -fsanitize=bounds
-CPPFLAGS_x64DBG := $(CPPFLAGS) -m64 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O0 -I./ -g3 -std=c++11 -fmax-errors=3 -ggdb -pg -fstack-protector-all
-CPPFLAGS_x64REL := $(CPPFLAGS) -m64 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c++11 -fmax-errors=3 -funroll-all-loops
-CPPFLAGS_x64TST := $(CPPFLAGS) -m64 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c++11 --analyze -fsanitize=address -fsanitize=bounds
+CPPFLAGS_x32DBG := $(CPPFLAGS) -m32 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O0 -I./ -g3 -std=c++11 -fdata-sections -ffunction-sections -fmax-errors=3 -ggdb -pg -fstack-protector-all
+CPPFLAGS_x32REL := $(CPPFLAGS) -m32 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c++11 -fdata-sections -ffunction-sections -fmax-errors=3 -funroll-all-loops
+CPPFLAGS_x32TST := $(CPPFLAGS) -m32 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c++11 -fdata-sections -ffunction-sections --analyze -fsanitize=address -fsanitize=bounds
+CPPFLAGS_x64DBG := $(CPPFLAGS) -m64 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O0 -I./ -g3 -std=c++11 -fdata-sections -ffunction-sections -fmax-errors=3 -ggdb -pg -fstack-protector-all
+CPPFLAGS_x64REL := $(CPPFLAGS) -m64 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c++11 -fdata-sections -ffunction-sections -fmax-errors=3 -funroll-all-loops
+CPPFLAGS_x64TST := $(CPPFLAGS) -m64 -pedantic -Wall -Wextra -Wlong-long -Wunused -pipe -march=native -mtune=native -O3 -I./ -g0 -std=c++11 -fdata-sections -ffunction-sections --analyze -fsanitize=address -fsanitize=bounds
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-LFLAGS_x32DBG   := $(LFLAGS)   -m32 -g3 -ggdb
-LFLAGS_x32REL   := $(LFLAGS)   -m32 -g0       -s
-LFLAGS_x64DBG   := $(LFLAGS)   -m64 -g3 -ggdb
-LFLAGS_x64REL   := $(LFLAGS)   -m64 -g0       -s
+LFLAGS_x32DBG   := $(LFLAGS)   -m32 -g3 -Wl,--gc-sections -ggdb
+LFLAGS_x32REL   := $(LFLAGS)   -m32 -g0 -Wl,--gc-sections       -s
+LFLAGS_x64DBG   := $(LFLAGS)   -m64 -g3 -Wl,--gc-sections -ggdb
+LFLAGS_x64REL   := $(LFLAGS)   -m64 -g0 -Wl,--gc-sections       -s
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 VPATH           := $(dir $(C_LIST) $(CPP_LIST))
 
@@ -97,18 +98,22 @@ $(OUT_DIR)/%.x64tst.opp : %.cpp $(HEADER_LIST) Makefile | $(OUT_DIR)
 $(OUT_DIR)/$(PROG_NAME)-x32dbg-$(PROG_VERSION) : $(O_x32DBG_LIST) $(OPP_x32DBG_LIST)
 	@$(LN) $(OUT_DIR)/*.x32dbg.o* $(LFLAGS_x32DBG) -o $(OUT_DIR)/$(PROG_NAME)-x32dbg-$(PROG_VERSION)
 	@objdump -Dslx $(OUT_DIR)/$(PROG_NAME)-x32dbg-$(PROG_VERSION) > $(OUT_DIR)/$(PROG_NAME)-x32dbg-$(PROG_VERSION).dump;
+	@$(HASH) $(OUT_DIR)/$(PROG_NAME)-x32dbg-$(PROG_VERSION) > $(OUT_DIR)/$(PROG_NAME)-x32dbg-$(PROG_VERSION).md5
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 $(OUT_DIR)/$(PROG_NAME)-x32-$(PROG_VERSION)    : $(O_x32REL_LIST) $(OPP_x32REL_LIST)
 	@$(LN) $(OUT_DIR)/*.x32.o*    $(LFLAGS_x32REL) -o $(OUT_DIR)/$(PROG_NAME)-x32-$(PROG_VERSION)
 	@$(STRIP) $(OUT_DIR)/$(PROG_NAME)-x32-$(PROG_VERSION)
+	@$(HASH) $(OUT_DIR)/$(PROG_NAME)-x32-$(PROG_VERSION) > $(OUT_DIR)/$(PROG_NAME)-x32-$(PROG_VERSION).md5
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 $(OUT_DIR)/$(PROG_NAME)-x64dbg-$(PROG_VERSION) : $(O_x64DBG_LIST) $(OPP_x64DBG_LIST)
 	@$(LN) $(OUT_DIR)/*.x64dbg.o* $(LFLAGS_x64DBG) -o $(OUT_DIR)/$(PROG_NAME)-x64dbg-$(PROG_VERSION)
 	@objdump -Dslx $(OUT_DIR)/$(PROG_NAME)-x64dbg-$(PROG_VERSION) > $(OUT_DIR)/$(PROG_NAME)-x64dbg-$(PROG_VERSION).dump;
+	@$(HASH) $(OUT_DIR)/$(PROG_NAME)-x64dbg-$(PROG_VERSION) > $(OUT_DIR)/$(PROG_NAME)-x64dbg-$(PROG_VERSION).md5
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 $(OUT_DIR)/$(PROG_NAME)-x64-$(PROG_VERSION)    : $(O_x64REL_LIST) $(OPP_x64REL_LIST)
 	@$(LN) $(OUT_DIR)/*.x64.o*    $(LFLAGS_x64REL) -o $(OUT_DIR)/$(PROG_NAME)-x64-$(PROG_VERSION)
 	@$(STRIP) $(OUT_DIR)/$(PROG_NAME)-x64-$(PROG_VERSION)
+	@$(HASH) $(OUT_DIR)/$(PROG_NAME)-x64-$(PROG_VERSION) > $(OUT_DIR)/$(PROG_NAME)-x64-$(PROG_VERSION).md5
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 .PHONY: x32dbg
 x32dbg:  $(OUT_DIR)/$(PROG_NAME)-x32dbg-$(PROG_VERSION)
