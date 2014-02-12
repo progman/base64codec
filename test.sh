@@ -39,21 +39,21 @@ function test1()
 	if [ "${?}" != "0" ];
 	then
 		echo "can't make tmp file";
-		return 1;
+		exit 1;
 	fi
 
 	TMP2="$(mktemp)";
 	if [ "${?}" != "0" ];
 	then
 		echo "can't make tmp file";
-		return 1;
+		exit 1;
 	fi
 
 	TMP3="$(mktemp)";
 	if [ "${?}" != "0" ];
 	then
 		echo "can't make tmp file";
-		return 1;
+		exit 1;
 	fi
 
 
