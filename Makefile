@@ -10,7 +10,7 @@ PROG_TYPE           := exe
 OUT_DIR             := bin
 C_LIST              :=
 CPP_LIST            := base64.cpp base64codec.cpp
-HEADER_LIST         := base64.h
+HEADER_LIST         := base64.hpp
 
 CFLAGS              :=
 CPPFLAGS            :=
