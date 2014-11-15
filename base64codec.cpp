@@ -23,8 +23,7 @@ int do_it(char *p, size_t size)
 	std::string out;
 	if (global::flag_decode == true)
 	{
-		std::string base64 = std::string(p, size);
-		if (base64_decode(base64, out) == size_t(-1))
+		if (base64_decode(p, size, out) == size_t(-1))
 		{
 			printf("ERROR[base64_decode()]: unknown error\n");
 			return -1;
