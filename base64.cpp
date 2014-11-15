@@ -1,11 +1,11 @@
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// 0.0.8
+// 0.0.9
 // Alexey Potehin <gnuplanet@gmail.com>, http://www.gnuplanet.ru/doc/cv
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 #include <stdint.h>
 #include "base64.hpp"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-static char base64_encode_table[64]=
+static char base64_encode_table[64] =
 {
 	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
 	'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
@@ -17,7 +17,7 @@ static char base64_encode_table[64]=
 	'4', '5', '6', '7', '8', '9', '+', '/'
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-static unsigned char base64_decode_table[256]=
+static unsigned char base64_decode_table[256] =
 {
 	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
@@ -40,10 +40,20 @@ static unsigned char base64_decode_table[256]=
 	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
 };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// encode data to base64
-size_t base64_encode(const void *p, size_t size, std::string &out, bool split, size_t split_size)
+/**
+ * \file       base64.hpp
+ * \Author     gnuplanet@gmail.com
+ * \brief      base64 encode
+ * \param [in] p source text pointer
+ * \param [in] size source text size
+ * \param [in] target target base64 result
+ * \param [in] split flag enable split base64 result
+ * \param [in] split_size split size
+ * \return     base64 result size
+ */
+size_t base64_encode(const void *p, size_t size, std::string &target, bool split, size_t split_size)
 {
-	out.reserve(out.size() + (size / (4.0/3.0)));
+	target.reserve(target.size() + (size / (4.0/3.0)));
 
 
 	uint8_t *buf = (uint8_t *)p;
@@ -71,10 +81,10 @@ size_t base64_encode(const void *p, size_t size, std::string &out, bool split, s
 			a = a | buf[index++];
 		}
 
-		out += base64_encode_table[(a >> (6*3)) & 63];
-		out += base64_encode_table[(a >> (6*2)) & 63];
-		out += base64_encode_table[(a >> (6*1)) & 63];
-		out += base64_encode_table[(a >> (6*0)) & 63];
+		target += base64_encode_table[(a >> (6*3)) & 63];
+		target += base64_encode_table[(a >> (6*2)) & 63];
+		target += base64_encode_table[(a >> (6*1)) & 63];
+		target += base64_encode_table[(a >> (6*0)) & 63];
 
 		if (index >= size)
 		{
@@ -85,7 +95,7 @@ size_t base64_encode(const void *p, size_t size, std::string &out, bool split, s
 		{
 			if (split != false)
 			{
-				out += "\n";
+				target += "\n";
 			}
 		}
 	}
@@ -93,33 +103,50 @@ size_t base64_encode(const void *p, size_t size, std::string &out, bool split, s
 
 	if ((size % 3) == 1)
 	{
-		out[out.size() - 2] = '=';
-		out[out.size() - 1] = '=';
+		target[target.size() - 2] = '=';
+		target[target.size() - 1] = '=';
 	}
 	if ((size % 3) == 2)
 	{
-		out[out.size() - 1] = '=';
+		target[target.size() - 1] = '=';
 	}
 
 
 	if (split != false)
 	{
-		out += "\n";
+		target += "\n";
 	}
 
-	return out.size();
+	return target.size();
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// encode string to base64
-size_t base64_encode(const std::string &base64, std::string &out, bool split, size_t split_size)
+/**
+ * \file       base64.hpp
+ * \Author     gnuplanet@gmail.com
+ * \brief      base64 encode
+ * \param [in] source source text
+ * \param [in] target target base64 result
+ * \param [in] split flag enable split base64 result
+ * \param [in] split_size split size
+ * \return     base64 result size
+ */
+size_t base64_encode(const std::string &source, std::string &target, bool split, size_t split_size)
 {
-	return base64_encode(base64.c_str(), base64.size(), out, split, split_size);
+	return base64_encode(source.c_str(), source.size(), target, split, split_size);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// decode base64 to string
-size_t base64_decode(const void *p, size_t size, std::string &out)
+/**
+ * \file       base64.hpp
+ * \Author     gnuplanet@gmail.com
+ * \brief      base64 decode
+ * \param [in] p source base64 pointer
+ * \param [in] size source base64 size
+ * \param [in] target target text result
+ * \return     text result size
+ */
+size_t base64_decode(const void *p, size_t size, std::string &target)
 {
-	out.reserve(out.size() + (size / (4.0/3.0)));
+	target.reserve(target.size() + (size / (4.0/3.0)));
 
 
 	uint32_t a = 0;
@@ -153,29 +180,36 @@ size_t base64_decode(const void *p, size_t size, std::string &out)
 
 			if ((tail_count == 0) || (tail_count == 1) || (tail_count == 2))
 			{
-				out += char((a >> 16) & 0xFF);
+				target += char((a >> 16) & 0xFF);
 			}
 
 			if ((tail_count == 0) || (tail_count == 1))
 			{
-				out += char((a >>  8) & 0xFF);
+				target += char((a >>  8) & 0xFF);
 			}
 
 			if (tail_count == 0)
 			{
-				out += char((a >>  0) & 0xFF);
+				target += char((a >>  0) & 0xFF);
 			}
 		}
 		a = a << 6;
 	}
 
 
-	return out.size();
+	return target.size();
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-// decode base64 to string
-size_t base64_decode(const std::string &base64, std::string &out)
+/**
+ * \file       base64.hpp
+ * \Author     gnuplanet@gmail.com
+ * \brief      base64 decode
+ * \param [in] source source base64
+ * \param [in] target target text result
+ * \return     text result size
+ */
+size_t base64_decode(const std::string &source, std::string &target)
 {
-	return base64_decode(base64.c_str(), base64.size(), out);
+	return base64_decode(source.c_str(), source.size(), target);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
